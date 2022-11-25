@@ -19,11 +19,13 @@ export class CreateProducts1669343108329 implements MigrationInterface {
           },
           {
             name: 'price',
-            type: 'varchar',
+            type: 'decimal',
+            precision: 10,
+            scale: 2,
           },
           {
             name: 'quantity',
-            type: 'varchar',
+            type: 'int',
           },
           {
             name: 'description',
@@ -35,12 +37,27 @@ export class CreateProducts1669343108329 implements MigrationInterface {
           },
           {
             name: 'discountPercentage',
-            type: 'varchar',
+            type: 'decimal',
+            precision: 3,
+            scale: 2,
+            isNullable: true,
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp with time zone',
+            default: 'now()',
+          },
+          {
+            name: 'updated_at',
+            type: 'timestamp with time zone',
+            default: 'now()',
           },
         ],
       }),
     );
   }
 
-  public async down(queryRunner: QueryRunner): Promise<void> {}
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropTable('products');
+  }
 }
