@@ -1,5 +1,5 @@
-import productsRouter from '@modules/products/routes/products.routes';
-import usersRouter from '@modules/users/routes/users.routes';
+import productsRouter from '@modules/products/infra/http/routes/products.routes';
+import usersRouter from '@modules/users/infra/http/routes/users.routes';
 import { Router } from 'express';
 
 const routes = Router();

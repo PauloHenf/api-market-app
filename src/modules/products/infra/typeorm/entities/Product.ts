@@ -5,9 +5,10 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { IProduct } from '@modules/products/dtos/IProduct';
 
 @Entity('products')
-class Product {
+class Product implements IProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

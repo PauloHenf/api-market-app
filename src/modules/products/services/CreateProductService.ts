@@ -1,18 +1,16 @@
 import AppError from '@shared/errors/AppError';
-import { getCustomRepository } from 'typeorm';
-import Product from '../typeorm/entities/Product';
-import { ProductRepository } from '../typeorm/repositories/ProductRepository';
+import { injectable, inject } from 'tsyringe';
+import { ICreateProduct } from '../dtos/ICreateProduct';
+import { IProduct } from '../dtos/IProduct';
+import { IProductsRepository } from '../repositories/IProductsRepository';
 
-interface IRequest {
-  name: string;
-  price: number;
-  quantity: number;
-  description: string;
-  image: string;
-  discountPercentage: number;
-}
-
+@injectable()
 class CreateProductService {
+  constructor(
+    @inject('ProductRepository')
+    private productsRepository: IProductsRepository,
+  ) {}
+
   public async execute({
     name,
     price,
@@ -20,15 +18,14 @@ class CreateProductService {
     description,
     image,
     discountPercentage,
-  }: IRequest): Promise<Product> {
-    const productsRepository = getCustomRepository(ProductRepository);
-    const productExists = await productsRepository.findByName(name);
+  }: ICreateProduct): Promise<IProduct> {
+    const productExists = await this.productsRepository.findByName(name);
 
     if (productExists) {
       throw new AppError('There is already one product with this name!!');
     }
 
-    const product = productsRepository.create({
+    const product = await this.productsRepository.create({
       name,
       price,
       quantity,
@@ -36,8 +33,6 @@ class CreateProductService {
       image,
       discountPercentage,
     });
-
-    await productsRepository.save(product);
 
     return product;
   }
