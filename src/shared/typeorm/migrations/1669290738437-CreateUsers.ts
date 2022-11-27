@@ -1,3 +1,4 @@
+import { json } from 'stream/consumers';
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 export class CreateUsers1669290738437 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -70,6 +71,10 @@ export class CreateUsers1669290738437 implements MigrationInterface {
           },
         ],
       }),
+    );
+
+    await queryRunner.query(
+      `ALTER TABLE public.users ALTER COLUMN address SET DEFAULT '{}'`,
     );
   }
 

@@ -6,6 +6,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export enum UserGender {
+  Male = 'male',
+  Female = 'female',
+  Undefined = 'undefined',
+}
 interface Address {
   cep: string;
   identification: string;
@@ -49,7 +54,11 @@ class User {
   @Column()
   birthdate: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: UserGender,
+    default: UserGender.Undefined,
+  })
   gender: string;
 
   @Column()
@@ -59,7 +68,7 @@ class User {
   created_at: Date;
 
   @UpdateDateColumn()
-  update_at: Date;
+  updated_at: Date;
 }
 
 export default User;

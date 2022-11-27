@@ -34,6 +34,24 @@ class UsersRepository extends Repository<User> {
 
     return user;
   }
+  public async findByCpf(cpf: string): Promise<User | undefined> {
+    const user = await this.findOne({
+      where: {
+        cpf,
+      },
+    });
+
+    return user;
+  }
+  public async findByTelephone(telephone: string): Promise<User | undefined> {
+    const user = await this.findOne({
+      where: {
+        telephone,
+      },
+    });
+
+    return user;
+  }
 }
 
 export default UsersRepository;
