@@ -5,26 +5,12 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-export enum UserGender {
-  Male = 'male',
-  Female = 'female',
-  Undefined = 'undefined',
-}
-interface Address {
-  cep: string;
-  identification: string;
-  street: string;
-  number: number;
-  complement: string;
-  reference: string;
-  city: string;
-  district: string;
-  state: string;
-}
+import { IAddress } from '@modules/users/dtos/IAddress';
+import { IUser } from '@modules/users/dtos/IUser';
+import { IUserGender } from '@modules/users/dtos/IUserGender';
 
 @Entity('users')
-class User {
+class User implements IUser {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -46,7 +32,7 @@ class User {
   @Column({
     type: 'json',
   })
-  address: Address;
+  address: IAddress;
 
   @Column()
   telephone: string;
@@ -56,8 +42,8 @@ class User {
 
   @Column({
     type: 'enum',
-    enum: UserGender,
-    default: UserGender.Undefined,
+    enum: IUserGender,
+    default: IUserGender.Undefined,
   })
   gender: string;
 

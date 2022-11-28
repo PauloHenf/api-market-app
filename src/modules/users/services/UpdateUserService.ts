@@ -1,33 +1,17 @@
 import AppError from '@shared/errors/AppError';
 import { hash } from 'bcryptjs';
-import { getCustomRepository } from 'typeorm';
-import User from '../infra/typeorm/entities/User';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
+import { inject, injectable } from 'tsyringe';
+import { IUpdateUser } from '../dtos/IUpdateUser';
+import { IUser } from '../dtos/IUser';
+import { IUsersRepository } from '../repositories/IUsersRepository';
 
-interface Address {
-  cep: string;
-  identification: string;
-  street: string;
-  number: number;
-  complement: string;
-  reference: string;
-  city: string;
-  district: string;
-  state: string;
-}
-
-interface IRequest {
-  id: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  telephone: string;
-  address: Address;
-  gender: string;
-}
-
+@injectable()
 class UpdateUserService {
+  constructor(
+    @inject('UserRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
+
   public async execute({
     id,
     firstname,
@@ -37,22 +21,22 @@ class UpdateUserService {
     telephone,
     address,
     gender,
-  }: IRequest): Promise<User> {
-    const usersRepository = getCustomRepository(UsersRepository);
-
-    const user = await usersRepository.findById(id);
+  }: IUpdateUser): Promise<IUser> {
+    const user = await this.usersRepository.findById(id);
 
     if (!user) {
       throw new AppError('User not found.');
     }
 
-    const emailExists = await usersRepository.findByEmail(email);
+    const emailExists = await this.usersRepository.findByEmail(email);
 
     if (emailExists && email !== user.email) {
       throw new AppError('This email is already being used by another user.');
     }
 
-    const telephoneExists = await usersRepository.findByTelephone(telephone);
+    const telephoneExists = await this.usersRepository.findByTelephone(
+      telephone,
+    );
 
     if (telephoneExists && telephone !== user.telephone) {
       throw new AppError(
@@ -69,9 +53,9 @@ class UpdateUserService {
     user.telephone = telephone;
     user.gender = gender;
 
-    await usersRepository.create({
-      address,
-    });
+    // await this.usersRepository.create({
+    //   IAddress,
+    // });
 
     user.address.cep = address.cep;
     user.address.identification = address.identification;
@@ -83,7 +67,7 @@ class UpdateUserService {
     user.address.district = address.district;
     user.address.state = address.state;
 
-    await usersRepository.save(user);
+    await this.usersRepository.save(user);
 
     return user;
   }

@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
-import CreateUserService from '../../../services/CreateUserService';
-import ListUserService from '../../../services/ListUserService';
-import UpdateUserService from '../../../services/UpdateUserService';
+import { CreateUserService } from '@modules/users/services/CreateUserService';
+import ListUserService from '@modules/users/services/ListUserService';
+import UpdateUserService from '@modules/users/services/UpdateUserService';
+import { container } from 'tsyringe';
 
 class UserController {
   public async index(req: Request, res: Response): Promise<Response> {
-    const listUsers = new ListUserService();
+    const listUsers = container.resolve(ListUserService);
 
     const user = await listUsers.execute();
 
@@ -15,7 +16,7 @@ class UserController {
     const { firstname, lastname, email, password, cpf, telephone, birthdate } =
       req.body;
 
-    const createUser = new CreateUserService();
+    const createUser = container.resolve(CreateUserService);
 
     const user = await createUser.execute({
       firstname,
@@ -34,7 +35,7 @@ class UserController {
     const { firstname, lastname, email, password, telephone, address, gender } =
       req.body;
 
-    const updateUser = new UpdateUserService();
+    const updateUser = container.resolve(UpdateUserService);
 
     const user = await updateUser.execute({
       id,

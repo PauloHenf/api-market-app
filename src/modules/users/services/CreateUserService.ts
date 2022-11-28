@@ -1,20 +1,17 @@
 import AppError from '@shared/errors/AppError';
 import { hash } from 'bcryptjs';
-import { getCustomRepository } from 'typeorm';
-import User from '../infra/typeorm/entities/User';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
+import { inject, injectable } from 'tsyringe';
+import { ICreateUser } from '../dtos/ICreateUser';
+import { IUser } from '../dtos/IUser';
+import { IUsersRepository } from '../repositories/IUsersRepository';
 
-interface IRequest {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  cpf: string;
-  telephone: string;
-  birthdate: string;
-}
+@injectable()
+export class CreateUserService {
+  constructor(
+    @inject('UserRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
-class CreateUserService {
   public async execute({
     firstname,
     lastname,
@@ -23,12 +20,12 @@ class CreateUserService {
     cpf,
     telephone,
     birthdate,
-  }: IRequest): Promise<User> {
-    const usersRepository = getCustomRepository(UsersRepository);
-
-    const cpfExists = await usersRepository.findByCpf(cpf);
-    const emailExists = await usersRepository.findByEmail(email);
-    const telephoneExists = await usersRepository.findByTelephone(telephone);
+  }: ICreateUser): Promise<IUser> {
+    const cpfExists = await this.usersRepository.findByCpf(cpf);
+    const emailExists = await this.usersRepository.findByEmail(email);
+    const telephoneExists = await this.usersRepository.findByTelephone(
+      telephone,
+    );
 
     if (emailExists) {
       throw new AppError('Email address already used.');
@@ -44,7 +41,7 @@ class CreateUserService {
 
     const hashedPassword = await hash(password, 8);
 
-    const user = usersRepository.create({
+    const user = this.usersRepository.create({
       firstname,
       lastname,
       email,
@@ -54,10 +51,6 @@ class CreateUserService {
       birthdate,
     });
 
-    await usersRepository.save(user);
-
     return user;
   }
 }
-
-export default CreateUserService;
