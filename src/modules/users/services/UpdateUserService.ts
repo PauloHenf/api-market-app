@@ -1,4 +1,4 @@
-import AppError from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/AppError';
 import { hash } from 'bcryptjs';
 import { inject, injectable } from 'tsyringe';
 import { IUpdateUser } from '../dtos/IUpdateUser';
@@ -6,7 +6,7 @@ import { IUser } from '../dtos/IUser';
 import { IUsersRepository } from '../repositories/IUsersRepository';
 
 @injectable()
-class UpdateUserService {
+export class UpdateUserService {
   constructor(
     @inject('UserRepository')
     private usersRepository: IUsersRepository,
@@ -53,10 +53,6 @@ class UpdateUserService {
     user.telephone = telephone;
     user.gender = gender;
 
-    // await this.usersRepository.create({
-    //   IAddress,
-    // });
-
     user.address.cep = address.cep;
     user.address.identification = address.identification;
     user.address.street = address.street;
@@ -72,5 +68,3 @@ class UpdateUserService {
     return user;
   }
 }
-
-export default UpdateUserService;

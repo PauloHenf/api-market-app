@@ -1,11 +1,11 @@
-import AppError from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import { IProduct } from '../dtos/IProduct';
 import { IUpdateProduct } from '../dtos/IUpdateProduct';
 import { IProductsRepository } from '../repositories/IProductsRepository';
 
 @injectable()
-class UpdateProductService {
+export class UpdateProductService {
   constructor(
     @inject('ProductRepository')
     private productsRepository: IProductsRepository,
@@ -44,5 +44,3 @@ class UpdateProductService {
     return product;
   }
 }
-
-export default UpdateProductService;

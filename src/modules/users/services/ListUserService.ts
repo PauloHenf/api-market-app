@@ -3,7 +3,7 @@ import { IUser } from '../dtos/IUser';
 import { IUsersRepository } from '../repositories/IUsersRepository';
 
 @injectable()
-class ListUserService {
+export class ListUserService {
   constructor(
     @inject('UserRepository')
     private usersRepository: IUsersRepository,
@@ -15,5 +15,3 @@ class ListUserService {
     return user;
   }
 }
-
-export default ListUserService;

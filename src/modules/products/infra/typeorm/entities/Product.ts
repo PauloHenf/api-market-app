@@ -8,7 +8,7 @@ import {
 import { IProduct } from '@modules/products/dtos/IProduct';
 
 @Entity('products')
-class Product implements IProduct {
+export class Product implements IProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -36,5 +36,3 @@ class Product implements IProduct {
   @UpdateDateColumn()
   updated_at: Date;
 }
-
-export default Product;

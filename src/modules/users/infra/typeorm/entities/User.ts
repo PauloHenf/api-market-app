@@ -10,7 +10,7 @@ import { IUser } from '@modules/users/dtos/IUser';
 import { IUserGender } from '@modules/users/dtos/IUserGender';
 
 @Entity('users')
-class User implements IUser {
+export class User implements IUser {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -56,5 +56,3 @@ class User implements IUser {
   @UpdateDateColumn()
   updated_at: Date;
 }
-
-export default User;

@@ -1,10 +1,10 @@
-import AppError from '@shared/errors/AppError';
+import { AppError } from '@shared/errors/AppError';
 import { injectable, inject } from 'tsyringe';
 import { IDeleteProduct } from '../dtos/IDeleteProduct';
 import { IProductsRepository } from '../repositories/IProductsRepository';
 
 @injectable()
-class DeleteProductService {
+export class DeleteProductService {
   constructor(
     @inject('ProductRepository')
     private productsRepository: IProductsRepository,
@@ -20,5 +20,3 @@ class DeleteProductService {
     await this.productsRepository.remove(product);
   }
 }
-
-export default DeleteProductService;

@@ -1,7 +1,7 @@
 import { ICreateProduct } from '@modules/products/dtos/ICreateProduct';
 import { IProductsRepository } from '@modules/products/repositories/IProductsRepository';
 import { getRepository, Repository } from 'typeorm';
-import Product from '../entities/Product';
+import { Product } from '../entities/Product';
 
 export class ProductRepository implements IProductsRepository {
   private ormRepository: Repository<Product>;

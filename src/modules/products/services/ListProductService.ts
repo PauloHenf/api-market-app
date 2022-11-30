@@ -3,7 +3,7 @@ import { IProduct } from '../dtos/IProduct';
 import { IProductsRepository } from '../repositories/IProductsRepository';
 
 @injectable()
-class ListProductService {
+export class ListProductService {
   constructor(
     @inject('ProductRepository')
     private productsRepository: IProductsRepository,
@@ -15,5 +15,3 @@ class ListProductService {
     return products;
   }
 }
-
-export default ListProductService;

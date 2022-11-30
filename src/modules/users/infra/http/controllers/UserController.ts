@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { CreateUserService } from '@modules/users/services/CreateUserService';
-import ListUserService from '@modules/users/services/ListUserService';
-import UpdateUserService from '@modules/users/services/UpdateUserService';
+import { ListUserService } from '@modules/users/services/ListUserService';
+import { UpdateUserService } from '@modules/users/services/UpdateUserService';
 import { container } from 'tsyringe';
 
-class UserController {
+export class UserController {
   public async index(req: Request, res: Response): Promise<Response> {
     const listUsers = container.resolve(ListUserService);
 
@@ -51,5 +51,3 @@ class UserController {
     return res.json(user);
   }
 }
-
-export default UserController;
