@@ -4,6 +4,5 @@ export interface IUpdateProduct {
   price: number;
   quantity: number;
   description: string;
-  image: string;
   discountPercentage: number;
 }

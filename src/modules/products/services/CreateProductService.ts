@@ -3,7 +3,6 @@ import { injectable, inject } from 'tsyringe';
 import { ICreateProduct } from '../dtos/ICreateProduct';
 import { IProduct } from '../dtos/IProduct';
 import { IProductsRepository } from '../repositories/IProductsRepository';
-
 @injectable()
 export class CreateProductService {
   constructor(
@@ -16,7 +15,6 @@ export class CreateProductService {
     price,
     quantity,
     description,
-    image,
     discountPercentage,
   }: ICreateProduct): Promise<IProduct> {
     const productExists = await this.productsRepository.findByName(name);
@@ -30,7 +28,6 @@ export class CreateProductService {
       price,
       quantity,
       description,
-      image,
       discountPercentage,
     });
 

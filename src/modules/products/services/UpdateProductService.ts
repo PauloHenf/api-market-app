@@ -17,7 +17,6 @@ export class UpdateProductService {
     price,
     quantity,
     description,
-    image,
     discountPercentage,
   }: IUpdateProduct): Promise<IProduct> {
     const product = await this.productsRepository.findById(id);
@@ -36,7 +35,6 @@ export class UpdateProductService {
     product.price = price;
     product.quantity = quantity;
     product.description = description;
-    product.image = image;
     product.discountPercentage = discountPercentage;
 
     await this.productsRepository.save(product);

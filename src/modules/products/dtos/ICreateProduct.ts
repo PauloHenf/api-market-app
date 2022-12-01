@@ -3,6 +3,6 @@ export interface ICreateProduct {
   price: number;
   quantity: number;
   description: string;
-  image: string;
+  image?: string;
   discountPercentage: number;
 }

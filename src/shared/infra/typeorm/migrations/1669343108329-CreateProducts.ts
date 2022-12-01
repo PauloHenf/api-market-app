@@ -34,6 +34,7 @@ export class CreateProducts1669343108329 implements MigrationInterface {
           {
             name: 'image',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'discountPercentage',

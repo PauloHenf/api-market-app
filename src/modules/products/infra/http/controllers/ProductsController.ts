@@ -24,8 +24,7 @@ export class ProductsController {
     return res.json(product);
   }
   public async create(req: Request, res: Response): Promise<Response> {
-    const { name, price, quantity, description, image, discountPercentage } =
-      req.body;
+    const { name, price, quantity, description, discountPercentage } = req.body;
 
     const createProduct = container.resolve(CreateProductService);
 
@@ -34,7 +33,6 @@ export class ProductsController {
       price,
       quantity,
       description,
-      image,
       discountPercentage,
     });
 
@@ -42,8 +40,7 @@ export class ProductsController {
   }
   public async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { name, price, quantity, description, image, discountPercentage } =
-      req.body;
+    const { name, price, quantity, description, discountPercentage } = req.body;
 
     const updateProduct = container.resolve(UpdateProductService);
 
@@ -53,7 +50,6 @@ export class ProductsController {
       price,
       quantity,
       description,
-      image,
       discountPercentage,
     });
 
