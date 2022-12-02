@@ -1,6 +1,7 @@
 import { AppError } from '@shared/errors/AppError';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
+import authConfig from '@config/auth';
 import { inject, injectable } from 'tsyringe';
 import { ICreateSessions, ITokenResponse } from '../dtos/ICreateSessions';
 import { IUsersRepository } from '../repositories/IUsersRepository';
@@ -28,9 +29,9 @@ export class CreateSessionsService {
       throw new AppError('Incorrect email/password combination');
     }
 
-    const token = sign({}, '5f4dcc3b5aa765d61d8327deb882cf99', {
+    const token = sign({}, authConfig.jwt.secret, {
       subject: user.id,
-      expiresIn: '1d',
+      expiresIn: authConfig.jwt.expiresIn,
     });
 
     return {

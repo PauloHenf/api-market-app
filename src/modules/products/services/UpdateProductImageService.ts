@@ -5,6 +5,7 @@ import uploadConfig from '@config/upload';
 import { inject, injectable } from 'tsyringe';
 import { IUpdateImageProduct } from '../dtos/IUpdateProductImage';
 import { IProductsRepository } from '../repositories/IProductsRepository';
+import { IProduct } from '../dtos/IProduct';
 
 @injectable()
 export class UpdateProductImageService {
@@ -16,11 +17,11 @@ export class UpdateProductImageService {
   public async execute({
     productId,
     imageFileName,
-  }: IUpdateImageProduct): Promise<void> {
+  }: IUpdateImageProduct): Promise<IProduct> {
     const product = await this.productsRepository.findById(productId);
 
     if (!product) {
-      throw new AppError('User not found.');
+      throw new AppError('Product not found.');
     }
 
     if (product.image) {
@@ -40,5 +41,7 @@ export class UpdateProductImageService {
     product.image = imageFileName;
 
     await this.productsRepository.save(product);
+
+    return product;
   }
 }

@@ -5,12 +5,13 @@ import { container } from 'tsyringe';
 export class ProductImageController {
   public async update(req: Request, res: Response): Promise<Response> {
     const updateImage = container.resolve(UpdateProductImageService);
+    const { id } = req.params;
 
-    // const product = updateImage.execute({
-    //   productId: id,
-    //   imageFileName: req.file.filename,
-    // });
+    const product = updateImage.execute({
+      productId: id,
+      imageFileName: req.file.filename,
+    });
 
-    return res.json({ message: 'Image has been updated.' });
+    return res.json(product);
   }
 }
