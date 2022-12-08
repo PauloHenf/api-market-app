@@ -6,8 +6,14 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { IAddress } from '@modules/users/dtos/IAddress';
+//import { IUserGender } from '@modules/users/dtos/IUserGender';
 import { IUser } from '@modules/users/dtos/IUser';
-import { IUserGender } from '@modules/users/dtos/IUserGender';
+
+export enum IUserGender {
+  Male = 'male',
+  Female = 'female',
+  Undefined = 'undefined',
+}
 
 @Entity('users')
 export class User implements IUser {
