@@ -2,9 +2,11 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import { container } from 'tsyringe';
 import { ForgotPasswordController } from '../controllers/ForgotPasswordController';
+import { ResetPasswordController } from '../controllers/ResetPasswordController';
 
 const passwordRouter = Router();
 const forgotPasswordController = container.resolve(ForgotPasswordController);
+const resetPasswordController = container.resolve(ResetPasswordController);
 
 passwordRouter.post(
   '/forgot',
@@ -14,6 +16,18 @@ passwordRouter.post(
     },
   }),
   forgotPasswordController.create,
+);
+
+passwordRouter.post(
+  '/reset',
+  celebrate({
+    [Segments.BODY]: {
+      token: Joi.string().uuid().required(),
+      password: Joi.string().required(),
+      password_confirmation: Joi.string().required().valid(Joi.ref('password')),
+    },
+  }),
+  resetPasswordController.create,
 );
 
 export default passwordRouter;

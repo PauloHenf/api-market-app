@@ -7,7 +7,7 @@ import { IUsersRepository } from '../repositories/IUsersRepository';
 import { IUserTokensRepository } from '../repositories/IUserTokensRepository';
 
 @injectable()
-export class ResetPasswordEmailService {
+export class ResetPasswordService {
   constructor(
     @inject('UserRepository')
     private usersRepository: IUsersRepository,
@@ -40,5 +40,7 @@ export class ResetPasswordEmailService {
     }
 
     user.password = await hash(password, 8);
+
+    await this.usersRepository.save(user);
   }
 }
