@@ -1,9 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
-export class CreateUsers1669290738437 implements MigrationInterface {
+
+export class CreateOrdersPurchasesHistory1671113037460
+  implements MigrationInterface
+{
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users',
+        name: 'orders_purchases_history',
         columns: [
           {
             name: 'id',
@@ -13,56 +16,39 @@ export class CreateUsers1669290738437 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'firstname',
-            type: 'varchar',
+            name: 'purchase_date',
+            type: 'timestamp with time zone',
+            default: 'now()',
           },
           {
-            name: 'lastname',
-            type: 'varchar',
+            name: 'status',
+            type: 'json',
           },
           {
-            name: 'email',
+            name: 'payment_form',
             type: 'varchar',
-            isUnique: true,
-          },
-          {
-            name: 'password',
-            type: 'varchar',
-          },
-          {
-            name: 'cpf',
-            type: 'varchar',
-            isUnique: true,
           },
           {
             name: 'address',
             type: 'json',
-            isNullable: true,
           },
           {
-            name: 'telephone',
-            type: 'varchar',
-            isUnique: true,
-          },
-          {
-            name: 'birthdate',
+            name: 'name_product',
             type: 'varchar',
           },
           {
-            name: 'gender',
-            type: 'varchar',
-            isNullable: true,
+            name: 'price',
+            type: 'decimal',
+            precision: 10,
+            scale: 2,
           },
           {
-            name: 'avatar',
+            name: 'image',
             type: 'varchar',
-            isNullable: true,
           },
           {
-            name: 'isAdmin',
-            type: 'bool',
-            isNullable: true,
-            default: false,
+            name: 'quantity',
+            type: 'int',
           },
           {
             name: 'created_at',
@@ -77,13 +63,9 @@ export class CreateUsers1669290738437 implements MigrationInterface {
         ],
       }),
     );
-
-    await queryRunner.query(
-      `ALTER TABLE public.users ALTER COLUMN address SET DEFAULT '{}'`,
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users');
+    await queryRunner.dropTable('orders_purchases_history');
   }
 }
