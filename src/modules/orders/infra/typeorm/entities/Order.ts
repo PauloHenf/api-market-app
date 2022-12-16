@@ -1,4 +1,4 @@
-import { IOrders } from '@modules/orders/dtos/IOrders';
+import { IOrder } from '@modules/orders/dtos/IOrder';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import {
   CreateDateColumn,
@@ -12,7 +12,7 @@ import {
 import { OrdersPurchasesHistory } from './OrdersPurchasesHistory';
 
 @Entity('orders')
-export class Order implements IOrders {
+export class Order implements IOrder {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

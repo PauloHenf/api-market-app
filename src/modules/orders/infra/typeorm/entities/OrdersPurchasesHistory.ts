@@ -2,7 +2,6 @@ import { IOrdersPurchasesHistory } from '@modules/orders/dtos/IOrdersPurchasesHi
 import { IOrdersPurchasesHistoryStatus } from '@modules/orders/dtos/IOrdersPurchasesHistoryStatus';
 import { Product } from '@modules/products/infra/typeorm/entities/Product';
 import { IAddress } from '@modules/users/dtos/IAddress';
-import { json } from 'stream/consumers';
 import {
   Column,
   CreateDateColumn,
