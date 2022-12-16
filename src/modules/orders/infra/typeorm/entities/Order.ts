@@ -1,5 +1,4 @@
 import { IOrders } from '@modules/orders/dtos/IOrders';
-import { Product } from '@modules/products/infra/typeorm/entities/Product';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import {
   CreateDateColumn,
@@ -10,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { OrdersPurchasesHistory } from './OrdersPurchasesHistory';
 
 @Entity('orders')
 export class Order implements IOrders {
@@ -20,7 +20,14 @@ export class Order implements IOrders {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  //@ManyToOne(() => Product, product => )
+  @OneToMany(
+    () => OrdersPurchasesHistory,
+    order_purchase => order_purchase.order,
+    {
+      cascade: true,
+    },
+  )
+  order_purchase: OrdersPurchasesHistory[];
 
   @CreateDateColumn()
   created_at: Date;
